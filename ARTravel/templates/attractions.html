@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Atracții{% endblock %}
+
+{% block content %}
+<style>
+    /* Resetăm marginile pentru a ocupa tot ecranul */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Containerul principal care împarte ecranul în 3 */
+    .split-background-container {
+        display: flex;
+        width: 100%;
+        height: 100vh; /* Ocupă toată înălțimea ferestrei */
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    /* Stil general pentru fiecare coloană de fundal */
+    .bg-column {
+        flex: 1; /* Împarte ecranul în 3 părți egale */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+        transition: flex 0.5s ease; /* Efect opțional: se mărește la hover */
+    }
+
+    /* Imagini individuale pentru fiecare secțiune */
+    .bg-art { background-image: url('{% static "img/attractions.jpg" %}'); }
+    .bg-food { background-image: url('{% static "img/attr1.jpg" %}'); }
+    .bg-selfcare { background-image: url('{% static "img/atr2.jpg" %}'); }
+
+    /* Containerul butoanelor, suprapus peste fundaluri */
+    .button-overlay-container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        z-index: 1;
+    }
+
+    .category-zone {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Butonul tău modern de tip "Glass" */
+    .glass-btn {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 40px;
+        padding: 40px 80px;
+        color: white;
+        text-decoration: none;
+        font-size: 2.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glass-btn:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(1.1);
+        color: #000;
+    }
+</style>
+
+<div class="split-background-container">
+    <div class="bg-column bg-art"></div>
+    <div class="bg-column bg-food"></div>
+    <div class="bg-column bg-selfcare"></div>
+</div>
+
+<div class="button-overlay-container">
+    <div class="category-zone">
+        <a href="{% url 'category_page' 'art' %}" class="glass-btn">Art</a>
+    </div>
+    <div class="category-zone">
+        <a href="{% url 'category_page' 'food' %}" class="glass-btn">Food</a>
+    </div>
+    <div class="category-zone">
+        <a href="{% url 'category_page' 'selfcare' %}" class="glass-btn">Selfcare</a>
+    </div>
+</div>
+{% endblock %}

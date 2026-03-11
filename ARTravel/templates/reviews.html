@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Recenzii Utilizatori{% endblock %}
+
+{% block content %}
+<style>
+    /* MODIFICARE AICI: Fundal Imagine rev.jpg */
+    .reviews-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        
+        /* Setăm imaginea rev.jpg */
+        background-image: url('{% static "img/clj.webp" %}');
+        background-size: cover;
+        background-position: center;
+        
+        z-index: -1;
+    }
+
+    .reviews-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    /* Card Adăugare */
+    .add-review-card {
+        background: rgba(255, 255, 255, 0.6); /* Mai transparent pentru a se vedea poza */
+        backdrop-filter: blur(15px);
+        border-radius: 30px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 50px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .review-textarea {
+        width: 100%;
+        height: 100px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        padding: 15px;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1rem;
+        margin-top: 15px;
+        resize: none;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .rating-select {
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    /* Grila de Recenzii */
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .review-card {
+        background: rgba(255, 255, 255, 0.7); /* Alb semi-transparent */
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.37);
+        padding-bottom: 10px;
+    }
+
+    .user-name {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .review-date {
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .review-text {
+        color: #2f2f2fff;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        word-wrap: break-word; 
+    }
+
+    .star-rating {
+        color: #FFD700;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .reviews-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="reviews-bg"></div>
+
+<div class="reviews-container">
+    
+    {% if user.is_authenticated %}
+    <div class="add-review-card">
+        <h2 style="color: #333; margin-bottom: 10px;">Lasă-ne părerea ta, {{ user.username }}!</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="content" class="review-textarea" placeholder="Scrie aici mesajul tău..." required></textarea>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <div>
+                    <label style="color: #333; font-weight: bold;">Notă:</label>
+                    <select name="rating" class="rating-select">
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="1">⭐</option>
+                    </select>
+                </div>
+                <button type="submit" class="gradient-btn">Postează Review</button>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="add-review-card">
+        <h3 style="color: #333;">Trebuie să fii autentificat pentru a lăsa o recenzie. <a href="{% url 'login' %}" style="color: #00BFFF;">Login</a></h3>
+    </div>
+    {% endif %}
+
+    <h3 style="color: #333; text-shadow: 0 1px 3px rgba(255,255,255,0.5); margin-bottom: 20px;">Ce spun alți călători:</h3>
+
+    <div class="reviews-grid">
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <span class="user-name">{{ review.user.username }}</span>
+                <span class="review-date">{{ review.created_at|date:"d M Y" }}</span>
+            </div>
+            
+            <div class="star-rating">
+                {% if review.rating == 5 %}⭐⭐⭐⭐⭐{% endif %}
+                {% if review.rating == 4 %}⭐⭐⭐⭐{% endif %}
+                {% if review.rating == 3 %}⭐⭐⭐{% endif %}
+                {% if review.rating == 2 %}⭐⭐{% endif %}
+                {% if review.rating == 1 %}⭐{% endif %}
+            </div>
+            
+            <p class="review-text">{{ review.content }}</p>
+        </div>
+        {% empty %}
+            <p style="color: #333; font-size: 1.2rem; text-shadow: 0 1px 3px rgba(255,255,255,0.8);">Încă nu există recenzii. Fii tu primul!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Creează Traseul{% endblock %}
+
+{% block content %}
+<style>
+    /* Imaginea de fundal */
+    .journey-bg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('{% static "img/r.jpg" %}'); 
+        background-size: cover; background-position: center; z-index: -1;
+    }
+
+    /* Cardul central */
+    .journey-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        width: 450px; margin: 60px auto; padding: 40px;
+        border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center;
+    }
+
+    .journey-title {
+        color: #333; font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; line-height: 1.2;
+    }
+
+    .input-row { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+
+    /* Gradient pe numere */
+    .row-number {
+        background: linear-gradient(90deg, #32cd32 0%, #00bfff 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; color: transparent; 
+        font-weight: 800; font-size: 1.5rem; width: 35px; display: inline-block;
+    }
+
+    .location-select {
+        width: 100%; padding: 12px 15px; border: 1px solid #ccc;
+        border-radius: 15px; background-color: white; color: #000;
+        font-size: 1rem; font-family: 'Quicksand', sans-serif; outline: none; cursor: pointer;
+        appearance: none;
+    }
+
+    /* --- STILURI NOI PENTRU INPUT NUME ȘI BUTOANE --- */
+    
+    .route-name-input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        border: 2px solid #00bfff;
+        text-align: center;
+        font-weight: bold;
+        color: #333;
+        outline: none;
+        background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .route-name-input::placeholder { color: #888; font-weight: normal; }
+
+    .action-btn {
+        width: 100%;
+        margin-top: 15px;
+        padding: 15px;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Buton Generate (Verde-Albastru) */
+    .btn-generate {
+        background: linear-gradient(90deg, #32cd32 0%, #00bfff 100%);
+    }
+
+    /* Buton Save (Portocaliu-Roz - distinct) */
+    .btn-save {
+        background: linear-gradient(90deg, #ff9966 0%, #ff5e62 100%);
+    }
+
+</style>
+
+<div class="journey-bg"></div>
+
+<div class="journey-card">
+    
+    {% if user.is_authenticated %}
+        <h2 class="journey-title">Alege punctele de interes</h2>
+
+        <form method="POST" action="{% url 'generate_route' %}">
+            {% csrf_token %}
+            
+            {% for i in "123456"|make_list %}
+            <div class="input-row">
+                <span class="row-number">{{ forloop.counter }}-</span>
+                <select name="point_{{ forloop.counter }}" class="location-select">
+                    <option value="" selected disabled>Selectează o locație...</option>
+                    {% for loc in favorite %}
+                        <option value="{{ loc.id }}">{{ loc.nume }}</option>
+                    {% empty %}
+                        <option value="" disabled>Nu ai locații la favorite!</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+
+            <input type="text" name="route_name" class="route-name-input" placeholder="Dă un nume traseului (pt. Salvare)...">
+
+            <button type="submit" name="action" value="generate" class="action-btn btn-generate">
+                Generează ruta 🗺️
+            </button>
+
+            <button type="submit" name="action" value="save" class="action-btn btn-save">
+                Salvează ruta 💾
+            </button>
+        </form>
+
+    {% else %}
+        <h2 class="journey-title">Planifică-ți călătoria</h2>
+        <p style="color: #555; margin-bottom: 30px; font-size: 1.1rem;">
+            Pentru a crea un traseu personalizat cu locațiile tale favorite, trebuie să intri în cont.
+        </p>
+        
+        <a href="{% url 'login' %}" class="action-btn btn-generate" style="text-decoration: none; display: block; padding: 15px;">
+            Autentificare
+        </a>
+    {% endif %}
+
+</div>
+
+{% endblock %}

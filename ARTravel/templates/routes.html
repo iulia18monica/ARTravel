@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Traseele Mele{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #000033 0%, #4d0000 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .routes-container {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-title-box {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        padding: 10px 40px;
+        width: fit-content;
+        margin: 0 auto 50px auto;
+        text-align: center;
+    }
+
+    .page-title-box h1 {
+        color: white; margin: 0; font-size: 2.5em; font-weight: 300; letter-spacing: 2px;
+    }
+
+    /* Grila de carduri (ca să fie ordonate frumos) */
+    .routes-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+    }
+
+    /* CARDUL RUTEI - Simplu și Elegant */
+    .route-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 25px;
+        width: 350px; /* Lățime fixă ca la favorite */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease;
+    }
+
+    .route-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .route-header h2 {
+        font-size: 1.5rem;
+        color: white;
+        margin: 0 0 5px 0;
+    }
+
+    .route-date {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .route-locations {
+        color: rgba(255,255,255,0.9);
+        font-style: italic;
+        margin-bottom: 25px;
+        line-height: 1.4;
+        flex-grow: 1; /* Împinge butoanele jos */
+    }
+
+    /* ZONA DE BUTOANE */
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Buton Vezi Ruta (Verde) */
+    .btn-view {
+        text-decoration: none;
+        color: #32cd32;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: 0.2s;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    .btn-view:hover { color: #00ff00; transform: scale(1.05); }
+
+    /* Buton Elimină (Roșu) */
+    .btn-delete {
+        background: none;
+        border: none;
+        color: #ff4d4d;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.2s;
+        text-decoration: underline;
+    }
+    .btn-delete:hover { color: #ff0000; transform: scale(1.05); }
+
+</style>
+
+<div class="routes-container">
+    
+    <div class="page-title-box">
+        <h1>Traseele Tale 🗺️</h1>
+    </div>
+
+    <div class="routes-grid">
+        {% for ruta in rute %}
+        <div class="route-card">
+            
+            <div class="route-header">
+                <h2>{{ ruta.nume_ruta }}</h2>
+                <span class="route-date">{{ ruta.created_at|date:"d M Y" }}</span>
+            </div>
+            
+            <div class="route-locations">
+                📍 {{ ruta.descriere_locatii }}
+            </div>
+
+            <div class="card-footer">
+                <a href="{{ ruta.google_maps_url }}" target="_blank" class="btn-view">
+                    Vezi Ruta 🗺️
+                </a>
+
+                <form action="{% url 'delete_route' ruta.id %}" method="POST" style="margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-delete">Elimină</button>
+                </form>
+            </div>
+
+        </div>
+        {% empty %}
+        <div style="text-align: center; color: white; width: 100%;">
+            <h3>Nu ai salvat niciun traseu.</h3>
+            <a href="{% url 'journey' %}" style="color: #00BFFF; font-weight: bold; font-size: 1.2rem;">Creează unul acum!</a>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

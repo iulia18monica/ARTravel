@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #000033 0%, #4d0000 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .page-container {
+        padding: 50px 5%;
+    }
+
+    .category-header-box {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 40px;
+        padding: 10px 30px;
+        width: fit-content;
+        margin: 0 auto 50px auto;
+        text-align: center;
+    }
+
+    .category-header-box h1 {
+        color: white;
+        margin: 0;
+        text-transform: capitalize;
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    .location-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 30px;
+        padding-bottom: 100px;
+    }
+
+    @media (min-width: 1200px) {
+        .location-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 40px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .glass-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 30px;
+    }
+
+    .glass-card h3 {
+        color: white;
+        margin: 15px 0 10px 0;
+        font-size: 1.3em;
+    }
+
+    .glass-card p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+
+    .fav-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 26px;
+        transition: transform 0.2s;
+    }
+
+    .fav-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* --- STILURILE PENTRU INIMĂ --- */
+    
+    /* Inima Roșie (Când e la favorite) */
+    .heart-red { 
+        filter: grayscale(0%) !important; /* Se vede culoarea naturală (roșu) */
+        opacity: 1;
+    }
+    
+    /* Inima Gri (Când NU e la favorite) */
+    .heart-gray { 
+        filter: grayscale(100%) !important; /* O face alb-negru (gri) */
+        opacity: 0.5; /* Puțin transparentă */
+    }
+    
+    /* ------------------------------ */
+
+    .admin-add-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        text-decoration: none;
+        color: #333;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        z-index: 100;
+    }
+</style>
+
+<div class="page-container">
+    <div class="category-header-box">
+        <h1>{{ category }}</h1>
+    </div>
+
+    <div class="location-grid">
+        {% for loc in locatii %}
+        <div class="glass-card">
+            <div>
+                <img src="{{ loc.imagine.url }}" alt="{{ loc.nume }}">
+                <h3>{{ loc.nume }}</h3>
+                <p>{{ loc.descriere }}</p>
+            </div>
+
+            {% if user.is_authenticated %}
+            <form action="{% url 'toggle_favorite' loc.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="fav-btn">
+                    
+                    {% if loc.id in user_favorites_ids %}
+                        <span class="heart-red">❤️</span>
+                    {% else %}
+                        <span class="heart-gray">❤️</span>
+                    {% endif %}
+                    
+                </button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}" style="text-decoration: none;">
+                <span class="heart-gray" style="font-size: 26px;">❤️</span>
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if user.is_staff %}
+<a href="/admin/ARTravel/locatie/add/" class="admin-add-btn">+</a>
+{% endif %}
+{% endblock %}

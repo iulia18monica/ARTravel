@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        /* Fundal albastru închis spre roșu în degrade */
+        background: linear-gradient(135deg, #000033 0%, #4d0000 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .fav-container {
+        padding: 40px 20px;
+    }
+
+    /* Titlul paginii într-un chenar rotunjit și transparent */
+    .page-title-box {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        padding: 10px 40px;
+        width: fit-content;
+        margin: 0 auto 50px auto;
+    }
+
+    .page-title-box h1 {
+        color: white;
+        margin: 0;
+        font-size: 2.5em;
+        font-weight: 300;
+        letter-spacing: 2px;
+    }
+
+    .category-section {
+        margin-bottom: 60px;
+    }
+
+    /* Text dinamic și modern pentru categorii */
+    .category-title {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.8em;
+        margin-left: 5%;
+        margin-bottom: 20px;
+        font-weight: 400;
+    }
+
+    /* Container pentru scroll orizontal */
+    .horizontal-scroll-wrapper {
+        display: flex;
+        overflow-x: auto;
+        padding: 20px 5%;
+        gap: 30px;
+        scroll-behavior: smooth;
+        /* Ascundem scrollbar-ul pentru un aspect curat */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .horizontal-scroll-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+
+    /* Cardurile semitransparente rotunjite */
+    .location-card-fav {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        min-width: 300px;
+        max-width: 300px;
+        border-radius: 40px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        flex-shrink: 0; /* Previne comprimarea cardurilor */
+    }
+
+    .location-card-fav:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .location-card-fav img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 30px;
+    }
+
+    .location-card-fav h3 {
+        color: white;
+        margin: 15px 0;
+        font-size: 1.4em;
+    }
+
+    .location-card-fav p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95em;
+        line-height: 1.5;
+        height: 80px;
+        overflow: hidden;
+    }
+
+    .remove-fav {
+        color: #ff4d4d;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="fav-container">
+    <div class="page-title-box">
+        <h1>Favorite</h1>
+    </div>
+
+    <div class="category-section">
+        <h2 class="category-title">🎨 Artă</h2>
+        <div class="horizontal-scroll-wrapper">
+            {% for fave in art_faves %}
+            <div class="location-card-fav">
+                <img src="{{ fave.locatie.imagine.url }}" alt="{{ fave.locatie.nume }}">
+                <h3>{{ fave.locatie.nume }}</h3>
+                <p>{{ fave.locatie.descriere }}</p>
+                <a href="{% url 'toggle_favorite' fave.locatie.id %}" class="remove-fav">Elimină</a>
+            </div>
+            {% empty %}
+            <p style="color: white; opacity: 0.5;">Nu ai adăugat nicio locație la Artă.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h2 class="category-title">🍕 Food</h2>
+        <div class="horizontal-scroll-wrapper">
+            {% for fave in food_faves %}
+            <div class="location-card-fav">
+                <img src="{{ fave.locatie.imagine.url }}" alt="{{ fave.locatie.nume }}">
+                <h3>{{ fave.locatie.nume }}</h3>
+                <p>{{ fave.locatie.descriere }}</p>
+                <a href="{% url 'toggle_favorite' fave.locatie.id %}" class="remove-fav">Elimină</a>
+            </div>
+            {% empty %}
+            <p style="color: white; opacity: 0.5;">Nu ai adăugat nicio locație la Food.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h2 class="category-title">💆 Selfcare</h2>
+        <div class="horizontal-scroll-wrapper">
+            {% for fave in selfcare_faves %}
+            <div class="location-card-fav">
+                <img src="{{ fave.locatie.imagine.url }}" alt="{{ fave.locatie.nume }}">
+                <h3>{{ fave.locatie.nume }}</h3>
+                <p>{{ fave.locatie.descriere }}</p>
+                <a href="{% url 'toggle_favorite' fave.locatie.id %}" class="remove-fav">Elimină</a>
+            </div>
+            {% empty %}
+            <p style="color: white; opacity: 0.5;">Nu ai adăugat nicio locație la Selfcare.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

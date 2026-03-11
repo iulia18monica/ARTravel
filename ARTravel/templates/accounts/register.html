@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="full-background-img" style="background-image: url('{% static 'img/log.jpg' %}');"></div>
+    
+    <div class="center-container">
+        <div class="form-card" style="background-color: rgba(230, 220, 250, 0.7); backdrop-filter: blur(10px); color: #333;">
+            <h2 style="font-style: italic; margin-bottom: 20px; color: #333;">Creează Cont</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red; font-weight: bold;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <p style="text-align: left; margin-left: 10%; font-weight: 600;">Nume utilizator:</p>
+                <input type="text" name="username" placeholder="Alege un username" required 
+                       style="width: 80%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; background: #fff; color: #333;">
+                
+                <p style="text-align: left; margin-left: 10%; font-weight: 600; margin-top: 15px;">Email:</p>
+                <input type="email" name="email" placeholder="Introduceți email" required 
+                       style="width: 80%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; background: #fff; color: #333;">
+                
+                <p style="text-align: left; margin-left: 10%; font-weight: 600; margin-top: 15px;">Parolă:</p>
+                <input type="password" name="password" placeholder="Introduceți parola" required 
+                       style="width: 80%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; background: #fff; color: #333;">
+                
+                <button type="submit" class="gradient-btn" style="width: 60%; margin-top: 30px;">Înregistrare</button>
+            </form>
+            
+            <small style="display: block; margin-top: 20px;">
+                <p style="color: #333;">Ai deja cont? <a href="{% url 'login' %}" style="color: #00BFFF; text-decoration: none; font-weight: bold;">Login</a></p>
+            </small>
+        </div>
+    </div>
+{% endblock %}

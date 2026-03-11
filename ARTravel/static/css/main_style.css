@@ -1,0 +1,292 @@
+/* ARTRAVEL/static/css/main_style.css */
+
+/* 1. HEADER și NAVIGARE */
+.main-header {
+    /* Modificat: Fundal gri-alb transparent (Glassmorphism) */
+    background: rgba(240, 240, 240, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar-container a {
+    /* Modificat: Scris negru pentru contrast */
+    color: #1a1a1a; 
+    text-decoration: none;
+    margin-right: 25px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-container a:hover {
+    color: #660000; /* Accent roșu închis la hover */
+}
+
+.nav-left a {
+    color: #1a1a1a; 
+    margin-right: 30px;
+    font-weight: bold;
+    font-size: 24px; /* Puțin mai mare pentru Logo */
+    font-style: italic;
+}
+
+.login-btn {
+    background: none;
+    border: none;
+    color: #1a1a1a;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-btn:hover {
+    text-decoration: underline;
+    color: #ff4d4d;
+}
+
+/* 2. BACKGROUND ȘI ALIGNMENT CENTRAL */
+.full-background-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1; 
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px; 
+    min-height: 100vh;
+}
+
+/* --- MODIFICARE PENTRU PAGINA HOME (MOV TRANSPARENT) --- */
+.text-overlay {
+    background-color: rgba(230, 220, 250, 0.6); 
+    backdrop-filter: blur(12px);                 
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px 60px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); 
+    text-align: center;
+    max-width: 700px;
+    border: 1px solid rgba(200, 180, 255, 0.3); 
+}
+
+.text-overlay h1 {
+    font-style: italic;
+    color: #1a0033;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.text-overlay p {
+    color: #2b1a3d;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* 3. CARD-URI ȘI CHENARE (Login, Register) */
+.form-card, .info-card-large {
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.form-card input[type="text"], .form-card input[type="password"], .form-card input[type="email"] {
+    width: 80%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* 4. BUTOANE CU GRADIENT */
+.gradient-btn {
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(to right, #4CAF50, #00BFFF); 
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.gradient-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* 5. CARTOANE RESTAURANT/ARTĂ */
+.item-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 50px;
+    min-height: 100vh;
+}
+
+.item-card {
+    width: 300px;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+
+.item-card:hover {
+    transform: translateY(-10px);
+}
+
+.item-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* STILURI PENTRU PAGINA ABOUT */
+.about-page-background {
+    background: linear-gradient(135deg, #a86edb, #f3d95c); 
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 60px auto 20px auto;
+    padding: 20px;
+}
+
+.about-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.about-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.text-block {
+    width: 50%;
+    color: white;
+    font-size: 1.15em;
+    line-height: 1.6;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.image-grid {
+    position: relative;
+    width: 45%;
+    min-height: 500px;
+}
+
+.image-card {
+    position: absolute;
+    width: 200px;
+    height: 180px;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 5px solid #ffcc00; 
+}
+
+.top-right { top: 0; right: 0; }
+.bottom-left { top: 150px; left: 0; }
+.bottom-right { bottom: 0; right: 50px; }
+
+/* STILURI PENTRU PAGINA CATEGORII */
+.category-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 350px;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.category-btn::before {
+    content: attr(data-title);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(179, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.category-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Logout Button Style */
+.logout-submit-btn {
+    background: none;
+    border: none;
+    color: #1a1a1a;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.logout-submit-btn:hover {
+    text-decoration: underline;
+    color: #ff4d4d;
+}

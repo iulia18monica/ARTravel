@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="full-background-img" style="background-image: url('{% static 'img/cluj_panorama.jpg' %}');"></div>
+    
+    <div class="center-container">
+        <div class="text-overlay">
+            <h1>ARTravel</h1>
+            <p>
+                Cluj-Napoca este un oraș vibrant din inima Transilvaniei, cunoscut pentru atmosfera sa tânără, 
+                universitățile de prestigiu, arhitectura istorică și scena culturală diversă. 
+                Combină armonios tradiția cu modernitatea, oferind festivaluri renumite, spații verzi, 
+                cafenele cochete și o comunitate deschisă și dinamică.
+            </p>
+        </div>
+    </div>
+{% endblock %}

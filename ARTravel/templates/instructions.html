@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ghid Utilizare{% endblock %}
+
+{% block content %}
+<style>
+    /* Fundalul paginii - Gradient Bej-Turcoaz (ca la reviews) */
+    .guide-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, #35378bff 0%, #da7f7fff 100%);
+        z-index: -1;
+    }
+
+    .guide-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .guide-title {
+        text-align: center;
+        color: #ffffffff;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-shadow: 0 1px 3px rgba(10, 10, 10, 0.41);
+    }
+
+    /* Cardurile cu pași */
+    .step-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: transform 0.3s;
+        color: #333;
+    }
+
+    .step-card:hover {
+        transform: scale(1.02);
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .step-number {
+        background: linear-gradient(135deg, #32cd32, #00bfff);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        flex-shrink: 0; /* Să nu se strivească */
+    }
+
+    .step-content h3 {
+        margin: 0 0 10px 0;
+        color: #005f73; /* Un turcoaz închis */
+    }
+
+    .step-content p {
+        margin: 0;
+        line-height: 1.6;
+        font-size: 1.05rem;
+    }
+</style>
+
+<div class="guide-bg"></div>
+
+<div class="guide-container">
+    <h1 class="guide-title">Cum să folosești ARTravel 🗺️</h1>
+
+    <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-content">
+            <h3>Explorează Atracțiile</h3>
+            <p>Mergi la pagina <b>Attractions</b> și alege o categorie (Art, Food sau Selfcare). Vei găsi o listă cu cele mai interesante locuri din Cluj-Napoca.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-content">
+            <h3>Adaugă la Favorite ❤️</h3>
+            <p>Ți-a plăcut un loc? Apasă pe inimioara roșie de lângă el. Astfel, îl vei salva în lista ta personală de <b>Favorite</b>.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-content">
+            <h3>Creează-ți Traseul 📍</h3>
+            <p>Accesează pagina <b>Journey</b>. Aici poți selecta până la 6 locații din lista ta de favorite. Apasă "Generează ruta" și noi îți vom deschide automat traseul optim pe Google Maps!</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-content">
+            <h3>Lasă un Review ⭐</h3>
+            <p>După ce ai vizitat locurile, intră pe pagina <b>Reviews</b> și spune-ne cum a fost experiența ta. Părerea ta contează!</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{% url 'home' %}" class="gradient-btn" style="text-decoration: none; padding: 15px 40px;">Începe Explorarea</a>
+    </div>
+</div>
+{% endblock %}
